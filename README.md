@@ -1,0 +1,1 @@
+# django_jqery_git
