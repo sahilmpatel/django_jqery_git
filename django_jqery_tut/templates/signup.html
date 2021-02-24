@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+
+</head>
+<body>
+    <form method="post" data-validate-url="{% url 'jq_ajax:validate_details' %}" name="signupForm" id="signupFormId">
+         {% csrf_token %}
+        <div class="form-group">
+          <label for="Id_name">Name</label>
+          <input type="text" class="form-control" id="Id_name" name="name" placeholder="Enter name">
+
+       </div>
+      <div class="form-group">
+        <label for="Id_email">Email</label>
+        <input type="email" class="form-control" id="Id_email" name="email" placeholder="Enter email">
+
+      </div>
+
+      <div class="form-group">
+        <label for="Id_password">Password</label>
+        <input type="password" class="form-control" id="Id_password" name="password" placeholder="Password">
+      </div>
+
+      <div class="form-group">
+        <label for="Id_conf_password">Confirm password</label>
+        <input type="password" class="form-control" id="Id_conf_password" name="confirm_password"  placeholder="Confirm password">
+      </div>
+
+      <button type="submit" id="signup_btnID" class="btn btn-primary" >Submit</button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+     <script>
+       $("button").click(function (event) {
+       event.preventDefault();
+        var name = $('#Id_name').val();
+        console.log(name);
+        var form = $(this).closest("form");
+
+        console.log(form);
+
+        $.ajax({
+           url: form.attr("data-validate-url"),
+           data: form.serialize(),
+           dataType: 'json',
+           success: function (data){
+           console.log("data:",data);
+           console.log("Data is taken:",data.is_taken);
+           if (data.is_taken) {
+              alert("name is already exists.")
+             }
+           }
+
+        });
+
+     });
+
+   </script>
+
+
+</body>
+</html>
